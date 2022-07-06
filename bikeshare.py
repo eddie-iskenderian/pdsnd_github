@@ -472,16 +472,14 @@ def user_stats(df):
     kinds = value_counts.index.tolist()
     columns_to_show_raw_data = [USER_COLUMN]
     output.append('\nCounts of user types\n')
-    for kind in kinds:
-        output.append('{}: {}'.format(kind, value_counts[kind]))
+    output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
 
     # Display counts of gender
     if GENDER_COLUMN in df.columns:
         value_counts = df[GENDER_COLUMN].value_counts()
         kinds = value_counts.index.tolist()
         output.append('\nCounts of genders\n')
-        for kind in kinds:
-            output.append('{}: {}'.format(kind, value_counts[kind]))
+        output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
         columns_to_show_raw_data.append(GENDER_COLUMN)
 
     # Display earliest, most recent, and most common year of birth
@@ -490,8 +488,7 @@ def user_stats(df):
         value_counts = dobs.value_counts()
         kinds = value_counts.index.tolist()
         output.append('\nCounts of year of birth\n')
-        for kind in kinds:
-            output.append('{}: {}'.format(kind, value_counts[kind]))
+        output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
         columns_to_show_raw_data.append(DOB_COLUMN)
 
     output.append("\nThis took %s seconds." % (time.time() - start_time))
