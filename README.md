@@ -7,10 +7,27 @@
 Interactive BikeShare Statistics Explorer
 
 ### Description
-An interactive program for exploring BikeShare data.
-
-Run the following command in the terminal
+An interactive program for exploring BikeShare data. Run the following command in the terminal
+to start the program.
   python3 bikeshare.py
+
+When the script is executed, you will be prompted to select the time filter for the statistics
+that will be displayed. An example of the prompt and user responses is shown below. Note that you can
+enter the full name of a city, month or day. Otherwise, you can enter the abbreviation.
+
+```
+Hello! Let's explore some US bikeshare data!
+---------------------------------------------
+
+Would you like to see data for Chicago [C], New York City [NYC] or Washington [W]?
+> C
+
+Would you like to filter the data by month [m], day [d] or not at all [none]?
+> d
+
+Which day - Monday [M], Tuesday [Tu], Wednesday [W], Thursday [Th], Friday [F], Saturday [Sa], Sunday [Su] or all [all]?
+> Tu
+```
 
 ### Files used
 README.md
