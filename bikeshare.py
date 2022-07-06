@@ -1,3 +1,11 @@
+"""
+A program for displaying the BikeShare statistics for a selected city and period of time.
+
+Please see README.md for more detailed information.
+
+Usage:
+    python3 bikeshare.py
+"""
 import os
 from os.path import isfile
 import time
