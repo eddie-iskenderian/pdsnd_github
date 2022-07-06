@@ -348,6 +348,22 @@ GENDER_COLUMN = 'Gender'
 DOB_COLUMN = 'Birth Year'
 USER_COLUMN = 'User Type'
 
+def filter_by_time(df, column, selected):
+    """
+    Applies a time filter to a Pandas data frame
+    Args:
+        (pandas.DataFrame) df - The data frame to filter
+        (str) column - The column to drop as a result of applying the filter
+        (str) selected - The selected period on which to filter
+    
+    Returns:
+        The filtered data frame
+    """
+    if selected != ALL:
+        df = df[df[column] == selected]
+        df.drop(columns=column, inplace=True)
+    return df
+
 def load_data(csv, month, day):
     """
     Loads data from the specified city CSV file and filter by month and day if applicable.
@@ -375,12 +391,8 @@ def load_data(csv, month, day):
     df[HOUR_COLUMN] = df['Start Time'].dt.hour
 
     # Filter by the seleted time frame
-    if month != ALL:
-        df = df[df[MONTH_COLUMN] == month]
-        df.drop(columns=MONTH_COLUMN, inplace=True)
-    if day != ALL:
-        df = df[df[WEEKDAY_COLUMN] == day]
-        df.drop(columns=WEEKDAY_COLUMN, inplace=True)
+    df = filter_by_time(df, MONTH_COLUMN, month)
+    df = filter_by_time(df, WEEKDAY_COLUMN, day)
     stop_waiting()
     return df
 
@@ -415,7 +427,7 @@ def time_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df.filter(['Start Time'], axis=1))
+    prompt_for_raw_stats(df.filter(['Start Time'], axis=1))
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def station_stats(df):
@@ -441,7 +453,7 @@ def station_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[['Start Station', 'End Station']])
+    prompt_for_raw_stats(df[['Start Station', 'End Station']])
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def trip_duration_stats(df):
@@ -463,7 +475,7 @@ def trip_duration_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[['Trip Duration']])
+    prompt_for_raw_stats(df[['Trip Duration']])
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def user_stats(df):
@@ -480,16 +492,14 @@ def user_stats(df):
     kinds = value_counts.index.tolist()
     columns_to_show_raw_data = [USER_COLUMN]
     output.append('\nCounts of user types\n')
-    for kind in kinds:
-        output.append('{}: {}'.format(kind, value_counts[kind]))
+    output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
 
     # Display counts of gender
     if GENDER_COLUMN in df.columns:
         value_counts = df[GENDER_COLUMN].value_counts()
         kinds = value_counts.index.tolist()
         output.append('\nCounts of genders\n')
-        for kind in kinds:
-            output.append('{}: {}'.format(kind, value_counts[kind]))
+        output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
         columns_to_show_raw_data.append(GENDER_COLUMN)
 
     # Display earliest, most recent, and most common year of birth
@@ -498,18 +508,17 @@ def user_stats(df):
         value_counts = dobs.value_counts()
         kinds = value_counts.index.tolist()
         output.append('\nCounts of year of birth\n')
-        for kind in kinds:
-            output.append('{}: {}'.format(kind, value_counts[kind]))
+        output += ['{}: {}'.format(kind, value_counts[kind]) for kind in kinds]
         columns_to_show_raw_data.append(DOB_COLUMN)
 
     output.append("\nThis took %s seconds." % (time.time() - start_time))
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[columns_to_show_raw_data])
+    prompt_for_raw_stats(df[columns_to_show_raw_data])
     print(colour('-' * len(notice), TC_OKCYAN))
 
-def get_raw_stats(df):
+def prompt_for_raw_stats(df):
     """Prompts the user for more stats"""
     max_rows = 25
     row = 0
