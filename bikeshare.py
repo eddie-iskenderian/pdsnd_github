@@ -419,7 +419,7 @@ def time_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df.filter(['Start Time'], axis=1))
+    prompt_for_raw_stats(df.filter(['Start Time'], axis=1))
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def station_stats(df):
@@ -445,7 +445,7 @@ def station_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[['Start Station', 'End Station']])
+    prompt_for_raw_stats(df[['Start Station', 'End Station']])
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def trip_duration_stats(df):
@@ -467,7 +467,7 @@ def trip_duration_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[['Trip Duration']])
+    prompt_for_raw_stats(df[['Trip Duration']])
     print(colour('-' * len(notice), TC_OKCYAN))
 
 def user_stats(df):
@@ -507,10 +507,10 @@ def user_stats(df):
     stop_waiting()
     print(colour('\n'.join(output), TC_OKCYAN))
     print(colour('-' * len(notice), TC_OKCYAN))
-    get_raw_stats(df[columns_to_show_raw_data])
+    prompt_for_raw_stats(df[columns_to_show_raw_data])
     print(colour('-' * len(notice), TC_OKCYAN))
 
-def get_raw_stats(df):
+def prompt_for_raw_stats(df):
     """Prompts the user for more stats"""
     max_rows = 25
     row = 0
