@@ -27,6 +27,34 @@ Which day - Monday [M], Tuesday [Tu], Wednesday [W], Thursday [Th], Friday [F], 
 > Tu
 ```
 
+Sample statistics include:
+```
+Showing statistics for Chicago
+-------------------------------
+
+Loading data...
+                      
+Calculating The Most Frequent Times of Travel...
+                      
+The most popular month of departure is June.
+
+The most popular day of departure is Tuesday.
+
+The most common hour of departure is 5pm
+
+This took 0.016842126846313477 seconds.
+------------------------------------------------
+
+Would you like to view the raw data?
+> yes
+Start Time
+2017-06-23 15:09:32
+2017-05-25 18:19:03
+2017-01-04 08:27:49
+2017-03-06 13:49:38
+2017-01-17 14:53:07
+```
+
 ### Files used
 README.md
 bikeshare.py
