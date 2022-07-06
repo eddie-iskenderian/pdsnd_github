@@ -340,6 +340,22 @@ GENDER_COLUMN = 'Gender'
 DOB_COLUMN = 'Birth Year'
 USER_COLUMN = 'User Type'
 
+def filter_by_time(df, column, selected):
+    """
+    Applies a time filter to a Pandas data frame
+    Args:
+        (pandas.DataFrame) df - The data frame to filter
+        (str) column - The column to drop as a result of applying the filter
+        (str) selected - The selected period on which to filter
+    
+    Returns:
+        The filtered data frame
+    """
+    if selected != ALL:
+        df = df[df[column] == selected]
+        df.drop(columns=column, inplace=True)
+    return df
+
 def load_data(csv, month, day):
     """
     Loads data from the specified city CSV file and filter by month and day if applicable.
@@ -367,12 +383,8 @@ def load_data(csv, month, day):
     df[HOUR_COLUMN] = df['Start Time'].dt.hour
 
     # Filter by the seleted time frame
-    if month != ALL:
-        df = df[df[MONTH_COLUMN] == month]
-        df.drop(columns=MONTH_COLUMN, inplace=True)
-    if day != ALL:
-        df = df[df[WEEKDAY_COLUMN] == day]
-        df.drop(columns=WEEKDAY_COLUMN, inplace=True)
+    df = filter_by_time(df, MONTH_COLUMN, month)
+    df = filter_by_time(df, WEEKDAY_COLUMN, day)
     stop_waiting()
     return df
 
